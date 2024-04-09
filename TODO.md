@@ -1,0 +1,1 @@
+- [ ] Usar Arquitectura Hexagonal (Ports & Adapters)

@@ -16,8 +16,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.capgemini.catedrauv.girls4stem.models.Expert;
 
+import es.uv.etse.gim.proh.model.AccesoBD;
+
 /**
- * Hello world!
+ * Aplicación que extrae información de la página web de Girls4STEM
+ * 
+ * @version 1.0
+ * @author <a href="mailto:jose.fabra-valverde@capgemini.com">Pepe Fabra
+ *         Valverde</a>
  *
  */
 public class App {
@@ -96,7 +102,7 @@ public class App {
     }
 
     public static String findSecondLastName() {
-        return notImplemented("findSecondLastName");
+        return "";
     }
 
     public static String findJob() {
@@ -105,7 +111,7 @@ public class App {
     }
 
     public static String findCompany() {
-        return notImplemented("findCompany");
+        return "";
     }
 
     public static String findJobField() {
@@ -114,22 +120,22 @@ public class App {
     }
 
     public static String findBiography() {
-        return notImplemented("findBiography");
+        return "";
     }
 
     public static Expert getSpeakerInfo(WebElement expert) throws InterruptedException {
         openSpeaker(expert);
         Expert withDetails = new Expert();
 
-        withDetails.name = findName().trim();
-        withDetails.firstLastName = findFirstLastName().trim();
-        withDetails.secondLastName = findSecondLastName().trim();
-        withDetails.job = findJob().trim();
-        withDetails.company = findCompany().trim();
-        withDetails.jobField = findJobField().trim();
-        withDetails.biography = findBiography().trim();
+        withDetails.setName(findName().trim());
+        withDetails.setFirstLastName(findFirstLastName().trim());
+        withDetails.setSecondLastName(findSecondLastName().trim());
+        withDetails.setJob(findJob().trim());
+        withDetails.setCompany(findCompany().trim());
+        withDetails.setJobField(findJobField().trim());
+        withDetails.setBiography(findBiography().trim());
 
-        System.err.println("Detalle de la experta: " + withDetails.name);
+        System.err.println("Detalle de la experta: " + withDetails.getName());
 
         closeSpeaker();
 
@@ -140,22 +146,20 @@ public class App {
             throws InterruptedException {
         List<Expert> expertsWithDetails = new ArrayList<Expert>();
 
-        int index = 0;
+        
         int size = LIMIT == 0 ? experts.size() : experts.size() - LIMIT;
 
-        for (WebElement expert : experts) {
-            if (LIMIT != 0 && index >= LIMIT) {
-                break;
-            }
+        System.out.println();
+        System.out.println("Número de expertas: " + experts.size());
+        System.out.println();
 
-            System.out.printf("%d/%d - ", index, size);
-            System.out.println(String.valueOf(index / size * 100));
-            index++;
-
-            System.err.println();
+        for (int index = 0; index < size; index++) {
+            WebElement expert = experts.get(index);
+            System.out.printf("Avance %3d/%3d - %.2f %%\n", index + 1, size, 100.0 * (index + 1) / size);
             expertsWithDetails.add(getSpeakerInfo(expert));
-            System.err.println();
         }
+
+        System.out.println("Lista de expertas: " + expertsWithDetails);
 
         return expertsWithDetails;
     }
@@ -163,13 +167,13 @@ public class App {
     public static String toExpertCsvLine(Expert expert) {
         return String.join(
                 ";",
-                expert.name,
-                expert.firstLastName,
-                expert.secondLastName,
-                expert.job,
-                expert.jobField,
-                expert.company,
-                expert.biography.replaceAll("\n", "\\\\n"));
+                expert.getName(),
+                expert.getFirstLastName(),
+                expert.getSecondLastName(),
+                expert.getJob(),
+                expert.getJobField(),
+                expert.getCompany(),
+                expert.getBiography().replaceAll("\n", "\\\\n"));
     }
 
     public static String getCsvFromExperts(List<Expert> expertsWithDetails) {
@@ -208,8 +212,13 @@ public class App {
         visitExpertsPage();
 
         List<Expert> expertsWithDetails = getDetailsFromExperts(findExperts());
+        
         saveToCsv(expertsWithDetails);
 
         getInstance().close();
+
+        // To-Do: Insertar los datos en la base de datos a través de AccesoBD- Tarea de
+        // los estudiantes
+        AccesoBD.getInstance().insertExperts(expertsWithDetails);
     }
 }

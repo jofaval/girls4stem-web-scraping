@@ -1,1 +1,2 @@
 - [ ] Usar Arquitectura Hexagonal (Ports & Adapters)
+- [ ] Implementar unit testing

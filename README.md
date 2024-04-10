@@ -74,7 +74,19 @@ flowchart LR
 [Taller](#taller)
 
 ```
-maven install
+mvn clean install
 ```
 
 Tras la instalación, Selenium debería estar listo para su uso
+
+### Uso
+
+```
+mvn clean package exec:java
+```
+
+### Testing
+
+```
+mvn package test
+```

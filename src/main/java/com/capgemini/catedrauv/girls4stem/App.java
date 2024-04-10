@@ -23,7 +23,11 @@ public class App {
     public final static String USER_AGENT = "";
     public final static String BASE_URL = "https://girls4stem.uv.es/#/expertaStem#expertsCards";
 
-    public final static int LIMIT = 0;
+    public final static int MAIN_PAGE_SLEEP_TIME = 5_000;
+    public final static int SPEAKER_SLEEP_TIME = 500;
+
+    public final static int LIMITLESS = 0;
+    public final static int LIMIT = LIMITLESS;
 
     public static ChromeDriver getInstance() {
         if (selenium == null) {
@@ -43,6 +47,12 @@ public class App {
     /** Candidata a ser reemplazada */
     public static void visitExpertsPage() {
         getInstance().get(BASE_URL);
+
+        try {
+            Thread.sleep(MAIN_PAGE_SLEEP_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /** Candidata a ser reemplazada */
@@ -53,12 +63,26 @@ public class App {
     /** Candidata a ser reemplazada */
     public static void openSpeaker(WebElement expert) {
         getInstance().executeScript("arguments[0].click();", expert);
+
+        try {
+            Thread.sleep(SPEAKER_SLEEP_TIME);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /** Candidata a ser reemplazada */
     public static void closeSpeaker() {
         WebElement backdrop = getInstance().findElement(By.className("cdk-overlay-backdrop"));
         getInstance().executeScript("arguments[0].click();", backdrop);
+
+        try {
+            Thread.sleep(SPEAKER_SLEEP_TIME);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /** Candidata a ser reemplazada */
@@ -115,7 +139,7 @@ public class App {
         withDetails.jobField = findJobField();
         withDetails.biography = findBiography();
 
-        closeSpeakerModal();
+        closeSpeaker();
 
         return withDetails;
     }
@@ -160,6 +184,8 @@ public class App {
 
         List<Expert> expertsWithDetails = new ArrayList<Expert>();
 
+        System.err.println();
+        System.err.println("Size");
         int index = 0;
         int size = LIMIT == 0 ? experts.size() : experts.size() - LIMIT;
         for (WebElement expert : experts) {
@@ -167,17 +193,20 @@ public class App {
                 break;
             }
 
-            System.out.printf("%d/%d", index, size);
+            System.out.printf("%d/%d - ", index, size);
+            System.out.println(String.valueOf(Math.floor((index / size) * 10000) / 100));
             expertsWithDetails.add(getSpeakerInfo(expert));
             index++;
         }
 
         getInstance().close();
 
-        try {
-            save(expertsWithDetails);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // try {
+        // save(expertsWithDetails);
+        // } catch (SQLException e) {
+        // e.printStackTrace();
+        // }
+
+        System.out.println("Hello world!!");
     }
 }

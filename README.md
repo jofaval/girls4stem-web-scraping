@@ -2,6 +2,8 @@
 
 [https://girls4stem.uv.es/#/expertaStem#expertsCards](https://girls4stem.uv.es/#/expertaStem#expertsCards)
 
+Parte de la sesión [Web Scraping y las Bases de Datos Ofuscadas](https://github.com/jofaval/talks-about/tree/master/uv/web-scraping-y-las-bases-de-datos-ofuscadas)
+
 ## Tabla de contenido
 
 1. [Taller](#taller)

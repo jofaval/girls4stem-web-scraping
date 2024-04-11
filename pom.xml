@@ -47,6 +47,12 @@
       <version>7.9.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.32</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -113,6 +119,13 @@
             <mainClass>com.capgemini.catedrauv.girls4stem.App</mainClass>
           </configuration>
         </plugin>
+        <annotationProcessorPaths>
+          <path>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+          </path>
+        </annotationProcessorPaths>
       </plugins>
     </pluginManagement>
   </build>

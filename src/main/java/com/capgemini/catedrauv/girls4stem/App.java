@@ -146,17 +146,27 @@ public class App {
             throws InterruptedException {
         List<Expert> expertsWithDetails = new ArrayList<Expert>();
 
-        
-        int size = LIMIT == 0 ? experts.size() : experts.size() - LIMIT;
+        int size, loopUntil;
+
+        if (LIMIT == LIMITLESS) {
+            size = experts.size();
+            loopUntil = size;
+        } else {
+            size = experts.size() - LIMIT;
+            loopUntil = LIMIT;
+        }
 
         System.out.println();
         System.out.println("Número de expertas: " + experts.size());
         System.out.println();
 
-        for (int index = 0; index < size; index++) {
-            WebElement expert = experts.get(index);
-            System.out.printf("Avance %3d/%3d - %.2f %%\n", index + 1, size, 100.0 * (index + 1) / size);
+        for (int at = 0; at < loopUntil; at++) {
+            System.out.printf("Avance %3d/%3d - %.2f %%\n", at + 1, size, 100.0 * (at + 1) / size);
+
+            WebElement expert = experts.get(at);
             expertsWithDetails.add(getSpeakerInfo(expert));
+
+            System.out.println();
         }
 
         System.out.println("Lista de expertas: " + expertsWithDetails);
@@ -212,7 +222,7 @@ public class App {
         visitExpertsPage();
 
         List<Expert> expertsWithDetails = getDetailsFromExperts(findExperts());
-        
+
         saveToCsv(expertsWithDetails);
 
         getInstance().close();

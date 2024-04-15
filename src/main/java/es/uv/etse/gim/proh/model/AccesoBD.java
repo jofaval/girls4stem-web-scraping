@@ -1,9 +1,10 @@
 package es.uv.etse.gim.proh.model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.List;
 
-import com.capgemini.catedrauv.girls4stem.models.Expert;
+import com.capgemini.catedrauv.girls4stem.domain.models.Expert;
 
 /**
  * Clase que se encarga de implementar la persistencia del modelo en la base.
@@ -18,14 +19,15 @@ public final class AccesoBD {
     // El driver JDBC de MariaDB es org.mariadb.jdbc.Driver
     private static String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
 
-    // girls4stem es el nombre de la base de datos que debemos crear con anterioridad.
+    // girls4stem es el nombre de la base de datos que debemos crear con
+    // anterioridad.
     private static String DB_URL = "jdbc:mariadb://localhost:3306/girls4stem";
 
     // El usuario root y su clave son los que se puso al instalar MariaDB.
 
     /**
-     * Usuario conexión a base de datos 
-    */
+     * Usuario conexión a base de datos
+     */
     private static String USER = "root";
 
     /**
@@ -45,6 +47,7 @@ public final class AccesoBD {
 
     /**
      * Devuelve la instancia única del sigleton
+     * 
      * @return Instancia única del singleton
      */
     public static AccesoBD getInstance() {
@@ -66,7 +69,7 @@ public final class AccesoBD {
      */
     public void abrirConexionBD() {
         if (conexionBD == null) {
-            
+
             try {
                 Class.forName(JDBC_DRIVER);
                 conexionBD = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -80,6 +83,7 @@ public final class AccesoBD {
 
     /**
      * Comprueba si se ha podido abrir la conexión a la base de datos
+     * 
      * @return true si se ha podido abrir la conexión a la base de datos
      */
     public boolean comprobarAcceso() {
@@ -100,7 +104,7 @@ public final class AccesoBD {
         throw new UnsupportedOperationException("Not yet implemented");
 
     }
-    
+
     /**
      * Inserta una lista de expertas en la base de datos
      * 

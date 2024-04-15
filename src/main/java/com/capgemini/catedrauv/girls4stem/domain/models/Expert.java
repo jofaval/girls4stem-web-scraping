@@ -1,9 +1,10 @@
-package com.capgemini.catedrauv.girls4stem.models;
+package com.capgemini.catedrauv.girls4stem.domain.models;
 
 import lombok.Data;
+import shared.ToCsv;
 
 @Data
-public class Expert {
+public class Expert implements ToCsv {
 
     private String name;
 
@@ -24,6 +25,19 @@ public class Expert {
         return "Expert [name=" + name + ", firstLastName=" + firstLastName + ", secondLastName=" + secondLastName
                 + ", job=" + job + ", company=" + company + ", jobField=" + jobField + ", biography=" + biography
                 + "]\n";
+    }
+
+    @Override
+    public String toCsv(String separator) {
+        return String.join(
+                separator,
+                name,
+                firstLastName,
+                secondLastName,
+                job,
+                company,
+                jobField,
+                biography);
     }
 
 }
